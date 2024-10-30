@@ -7,11 +7,7 @@ include {flagstat} from "./modules/flagstat.nf"
 include {sortbam} from "./modules/sortbam.nf"
 include {markduplicates} from "./modules/markduplicates.nf"
 include {indexbam} from "./modules/indexbam.nf"
-include {freebayes} from "./modules/freebayes.nf"
-include {filtervcf} from "./modules/filtervcf.nf"
-include {fix_names} from "./modules/fix_names.nf"
-include {convert_accession_snpeff} from "./modules/convert_accession_snpeff.nf"
-include {snpeff_accession; vcf_annotation} from "./modules/vcf_annotation.nf"
+
 
 workflow {
 
@@ -47,25 +43,5 @@ workflow {
 
     // index alignment
     indexbam(markduplicates.out.bam)
-
-    // variant calling with freebayes
-    freebayes(indexbam.out.indexedbam, genome_downloader.out.fna)
-
-    // filter by quality
-    filtervcf(freebayes.out.vcf)
-
-    // fix chromosome names for compatibility with snpeff database
-    fix_names(params.accession_number, filtervcf.out.vcf)
-
-    // convert accession number into SnpEff database accession number
-    convert_accession_snpeff(params.accession_number)
-    convert_accession_snpeff.out.view()
-
-    // find snpeff_id in SnpEff database based on snpeff accession number
-    snpeff_accession(convert_accession_snpeff.out)
-    snpeff_accession.out.view()
-
-    // annotation of vcf file with SnpEff
-    vcf_annotation(fix_names.out.vcf, snpeff_accession.out)
-    vcf_annotation.out.vcf.view()
+    indexbam.out.indexedbam.view()
 }
