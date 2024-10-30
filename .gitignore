@@ -1,0 +1,13 @@
+# nextflow stuff
+.nextflow/
+.nextflow.log*
+work/*
+results/*
+test/*
+
+# editor configs
+.vscode/
+/Makefile
+
+#test files
+/samples_*.csv
