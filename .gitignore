@@ -4,6 +4,7 @@
 work/*
 results/*
 test/*
+simple_wgs/*
 
 # editor configs
 .vscode/
